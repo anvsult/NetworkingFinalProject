@@ -2,7 +2,36 @@ from game_logic import *
 import random
 
 
-# Bot logic
+def random_bot(grid, bot_symbol, player_symbol):
+    available_moves = []
+    for row in range(3):
+        for col in range(3):
+            if grid[row][col] is None:
+                available_moves.append((row, col))
+    return random.choice(available_moves) if available_moves else None
+
+
+def medium_bot(grid, bot_symbol, player_symbol):
+    for row in range(3):
+        for col in range(3):
+            if grid[row][col] is None:
+                grid[row][col] = bot_symbol
+                if check_winner(grid) == bot_symbol:
+                    return row, col
+                grid[row][col] = None
+
+    for row in range(3):
+        for col in range(3):
+            if grid[row][col] is None:
+                grid[row][col] = player_symbol
+                if check_winner(grid) == player_symbol:
+                    grid[row][col] = bot_symbol
+                    return row, col
+                grid[row][col] = None
+
+    return random_bot(grid, bot_symbol, player_symbol)
+
+
 def minimax(grid, depth, is_maximizing, bot_symbol, player_symbol):
     winner = check_winner(grid)
     if winner == bot_symbol:
@@ -10,7 +39,7 @@ def minimax(grid, depth, is_maximizing, bot_symbol, player_symbol):
     elif winner == player_symbol:
         return depth - 10
     elif all(cell is not None for row in grid for cell in row):
-        return 0 # Draw
+        return 0  # Draw
 
     if is_maximizing:
         best_score = float('-inf')
@@ -49,10 +78,3 @@ def hard_bot(grid, bot_symbol, player_symbol):
     return best_move
 
 
-def random_bot(grid, bot_symbol, player_symbol):
-    available_moves = []
-    for row in range(3):
-        for col in range(3):
-            if grid[row][col] is None:
-                available_moves.append((row, col))
-    return random.choice(available_moves) if available_moves else None

@@ -17,5 +17,6 @@ RED = (255, 0, 0)
 GRID = [[None for _ in range(3)] for _ in range(3)]
 
 # Font
-FONT = pygame.font.Font(None, 200)
-MESSAGE_FONT = pygame.font.Font(None, 250)
+SMALL_FONT = pygame.font.Font(None, 35)
+SYMBOL_FONT = pygame.font.Font(None, 200)
+MESSAGE_FONT = pygame.font.Font(None, 70)
