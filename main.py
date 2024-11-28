@@ -46,7 +46,7 @@ def main():
                     winner = check_winner()
 
                     if not winner and not is_draw():
-                        bot = medium_bot  # Change to random_bot for easier bot or to hard_bot for impossible bot
+                        bot = random_bot  # Change to random_bot for easier bot or to hard_bot for impossible bot
                         bot_move = bot(GRID, "O", "X")
                         if bot_move:
                             GRID[bot_move[0]][bot_move[1]] = "O"
