@@ -1,8 +1,20 @@
-
-from ui import *
+import subprocess
+import sys
 from protagonist import *
 from bot_logic import *
 from game_logic import *
+
+
+def install_requirements():
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", "requirements.txt"])
+
+
+try:
+    import cryptography
+except ImportError:
+    print("cryptography module not found. Installing dependencies...")
+    install_requirements()
+
 
 # Initialize the game
 pygame.init()
