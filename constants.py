@@ -12,6 +12,9 @@ SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
+DARK_BLUE = (0, 0, 150)
+BLUE = (0, 0, 255)
+
 
 # Grid setup
 GRID = [[None for _ in range(3)] for _ in range(3)]

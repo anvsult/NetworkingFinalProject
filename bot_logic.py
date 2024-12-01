@@ -2,7 +2,7 @@ from game_logic import *
 import random
 
 
-def random_bot(grid, bot_symbol, player_symbol):
+def easy_bot(grid, bot_symbol, player_symbol):
     available_moves = []
     for row in range(3):
         for col in range(3):
@@ -29,7 +29,7 @@ def medium_bot(grid, bot_symbol, player_symbol):
                     return row, col
                 grid[row][col] = None
 
-    return random_bot(grid, bot_symbol, player_symbol)
+    return easy_bot(grid, bot_symbol, player_symbol)
 
 
 def minimax(grid, depth, is_maximizing, bot_symbol, player_symbol):
