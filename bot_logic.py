@@ -16,7 +16,7 @@ def medium_bot(grid, bot_symbol, player_symbol):
         for col in range(3):
             if grid[row][col] is None:
                 grid[row][col] = bot_symbol
-                if check_winner(grid) == bot_symbol:
+                if check_winner() == bot_symbol:
                     return row, col
                 grid[row][col] = None
 
@@ -24,7 +24,7 @@ def medium_bot(grid, bot_symbol, player_symbol):
         for col in range(3):
             if grid[row][col] is None:
                 grid[row][col] = player_symbol
-                if check_winner(grid) == player_symbol:
+                if check_winner() == player_symbol:
                     grid[row][col] = bot_symbol
                     return row, col
                 grid[row][col] = None
@@ -33,7 +33,7 @@ def medium_bot(grid, bot_symbol, player_symbol):
 
 
 def minimax(grid, depth, is_maximizing, bot_symbol, player_symbol):
-    winner = check_winner(grid)
+    winner = check_winner()
     if winner == bot_symbol:
         return 10 - depth
     elif winner == player_symbol:

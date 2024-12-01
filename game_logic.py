@@ -1,8 +1,8 @@
-from constants import *
+from ui import *
 
 
 # Check for a win
-def check_winner(grid = GRID):
+def check_winner():
     # Rows, columns, and diagonals
     for row in GRID:
         if row[0] == row[1] == row[2] and row[0] is not None:
@@ -20,10 +20,3 @@ def check_winner(grid = GRID):
 # Check for a draw
 def is_draw():
     return all(cell is not None for row in GRID for cell in row)
-
-def reset_board():
-    global GRID, winner, game_over, player
-    GRID = [[None for _ in range(3)] for _ in range(3)]  # Reset grid
-    winner = None
-    game_over = False
-    player = "X"  # Start with player X again
