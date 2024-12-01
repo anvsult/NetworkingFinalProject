@@ -1,6 +1,6 @@
 
 from ui import *
-from ransomware import *
+from protagonist import *
 from bot_logic import *
 from game_logic import *
 
