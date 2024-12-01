@@ -20,3 +20,10 @@ def check_winner(grid = GRID):
 # Check for a draw
 def is_draw():
     return all(cell is not None for row in GRID for cell in row)
+
+def reset_board():
+    global GRID, winner, game_over, player
+    GRID = [[None for _ in range(3)] for _ in range(3)]  # Reset grid
+    winner = None
+    game_over = False
+    player = "X"  # Start with player X again

