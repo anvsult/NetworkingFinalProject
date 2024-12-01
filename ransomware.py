@@ -2,11 +2,8 @@ import os
 from pathlib import Path
 from cryptography.fernet import Fernet
 
-# Simulated ransomware paths
 DUMMY_FILES_DIR = "dummy_files"
-ENCRYPTED_FILES_DIR = "encrypted_files"
 
-# The key for encryption and decryption
 KEY_FILE = "secret.key"
 STATUS_FILE = "encryption_status.txt"
 
@@ -25,7 +22,7 @@ def set_encryption_status(status):
 
 def generate_key():
     key = Fernet.generate_key()
-    with open (KEY_FILE, "wb") as key_file:
+    with open(KEY_FILE, "wb") as key_file:
         key_file.write(key)
 
 

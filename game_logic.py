@@ -20,3 +20,4 @@ def check_winner():
 # Check for a draw
 def is_draw():
     return all(cell is not None for row in GRID for cell in row)
+

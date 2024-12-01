@@ -22,18 +22,10 @@ def draw_symbols():
                 SCREEN.blit(text, (HORIZONTAL_OFFSET + col * CELL_SIZE + CELL_SIZE // 3 + random.randint(-2, 2),
                                    row * CELL_SIZE + CELL_SIZE // 4 + random.randint(-2, 2)))
 
-
-def draw_flickering_text(text, font, color, y_offset, flicker_rate=500):
-    if pygame.time.get_ticks() % flicker_rate < flicker_rate // 2:
-        surface = font.render(text, True, color)
-        rect = surface.get_rect(center=(WIDTH // 2, HEIGHT // 2 + y_offset))
-        SCREEN.blit(surface, rect)
-
-
-def draw_title():
-    title_font = pygame.font.Font(None, 64)  # Larger font for the title
-    draw_flickering_text("System Locked!", title_font, TEXT_COLOR, -100)
-
+def draw_flickering_text(text, font, color, y_offset):
+    surface = font.render(text, True, color)
+    rect = surface.get_rect(center=(WIDTH // 2 + random.randint(-2, 2), HEIGHT // 2 + y_offset + random.randint(-2, 2)))
+    SCREEN.blit(surface, rect)
 
 def draw_text_centered(text, font, color, y_offset):
     surface = font.render(text, True, color)
@@ -48,11 +40,11 @@ def show_warning():
     instruction_msg2 = "You have 3 attempts"
 
     while True:
-        SCREEN.fill(WHITE)
+        SCREEN.fill(BLACK)
         draw_text_centered(warning_msg1, MESSAGE_FONT, RED, -100)
         draw_text_centered(warning_msg2, MESSAGE_FONT, RED, -50)
-        draw_text_centered(instruction_msg1, SMALL_FONT, BLACK, 20)
-        draw_text_centered(instruction_msg2, SMALL_FONT, BLACK, 60)
+        draw_flickering_text(instruction_msg1, SMALL_FONT, TEXT_COLOR, 20)
+        draw_flickering_text(instruction_msg2, SMALL_FONT, TEXT_COLOR, 60)
         pygame.display.flip()
 
         for event in pygame.event.get():
@@ -90,9 +82,9 @@ def show_when_bot_won():
     instruction_msg = "Press any key to close the game"
 
     while True:
-        SCREEN.fill(WHITE)
-        draw_text_centered(warning_msg1, MESSAGE_FONT, RED, -50)
-        draw_text_centered(warning_msg2, MESSAGE_FONT, RED, 20)
+        SCREEN.fill(RED)
+        draw_flickering_text(warning_msg1, MESSAGE_FONT, WHITE, -50)
+        draw_flickering_text(warning_msg2, MESSAGE_FONT, WHITE, 20)
         draw_text_centered(instruction_msg, SMALL_FONT, BLACK, 90)
         pygame.display.flip()
 
@@ -120,15 +112,15 @@ def draw_button(text, font, color, button_rect, hover_color=None):
 
 # Updated show_end_of_round
 def show_end_of_round(games_counter):
-    warning_msg1 = "You didn't win this one! You have {} attempts left".format(3 - games_counter)
+    warning_msg1 = "You didn't win this one! You have {} attempts left".format(3 - (games_counter - 1))
     button_text = "Next Round"
     button_width, button_height = 200, 60
     button_rect = pygame.Rect(
         (WIDTH - button_width) // 2, (HEIGHT + 50) // 2, button_width, button_height
     )
     while True:
-        SCREEN.fill(WHITE)
-        draw_text_centered(warning_msg1, MESSAGE_FONT, RED, -50)
+        SCREEN.fill(BLACK)
+        draw_flickering_text(warning_msg1, MESSAGE_FONT, RED, -50)
         draw_button(button_text, SMALL_FONT, BLUE, button_rect, hover_color=DARK_BLUE)
         pygame.display.flip()
 
@@ -144,23 +136,3 @@ def show_end_of_round(games_counter):
                 if button_rect.collidepoint(event.pos):
                     draw_button(button_text, SMALL_FONT, DARK_BLUE, button_rect, hover_color=BLUE)
 
-
-def show_game_over():
-    warning_msg1 = "Game Over!"
-    warning_msg2 = "You have no more attempts!"
-    instruction_msg = "Press any key to close the game"
-
-    while True:
-        SCREEN.fill(WHITE)
-        draw_text_centered(warning_msg1, MESSAGE_FONT, RED, -50)
-        draw_text_centered(warning_msg2, MESSAGE_FONT, RED, 20)
-        draw_text_centered(instruction_msg, SMALL_FONT, BLACK, 90)
-        pygame.display.flip()
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                exit()
-            if event.type == pygame.KEYDOWN:
-                pygame.quit()
-                exit()
